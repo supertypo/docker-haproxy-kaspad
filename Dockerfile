@@ -22,4 +22,4 @@ COPY haproxy.cfg /app/
 
 USER haproxy
 
-ENTRYPOINT ["/usr/local/sbin/haproxy", "-f", "/app/haproxy.cfg"]
+CMD ["/usr/local/sbin/haproxy", "-f", "/app/haproxy.cfg"]
