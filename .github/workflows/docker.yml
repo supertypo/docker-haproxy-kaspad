@@ -1,9 +1,6 @@
 name: Docker Native Image
 
 on:
-  push:
-    branches:
-      - "**"
   release:
     types:
       - published
