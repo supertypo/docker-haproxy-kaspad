@@ -49,7 +49,9 @@ jobs:
           fetch-depth: 0
 
       - name: Git describe version
-        run: echo "GIT_VERSION=$(git describe --tags --always)" >> $GITHUB_ENV
+        run: |
+          version=$(git describe --tags --always)
+          echo "HAPROXY_VERSION=${version%-*}" >> $GITHUB_ENV
 
       - name: Build and push by digest
         id: build
@@ -60,7 +62,7 @@ jobs:
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            VERSION=${{ env.GIT_VERSION }}
+            HAPROXY_VERSION=${{ env.HAPROXY_VERSION }}
           outputs: type=image,"name=${{ vars.DOCKER_REPO }},${{ vars.DOCKER_LEGACY_REPO }}",push-by-digest=true,name-canonical=true,push=true
 
       - name: Export digest
