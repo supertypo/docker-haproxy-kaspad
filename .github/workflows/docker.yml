@@ -47,8 +47,12 @@ jobs:
 
       - name: Git describe version
         run: |
+          echo "Running git describe..."
           version=$(git describe --tags --always)
-          echo "HAPROXY_VERSION=${version%-*}" >> $GITHUB_ENV
+          echo "Raw git describe output: $version"
+          extracted_version="${version%-*}"
+          echo "Extracted version: $extracted_version"
+          echo "HAPROXY_VERSION=$extracted_version" >> $GITHUB_ENV
 
       - name: Build and push by digest
         id: build
