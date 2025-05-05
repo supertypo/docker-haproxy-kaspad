@@ -1,7 +1,8 @@
+ARG HAPROXY_VERSION
+
 FROM supertypo/kaspad:latest AS kaspad
 FROM supertypo/kcheck:latest AS kcheck
 
-ARG HAPROXY_VERSION
 FROM haproxy:${HAPROXY_VERSION}
 
 WORKDIR /app
