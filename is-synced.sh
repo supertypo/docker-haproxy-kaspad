@@ -8,11 +8,17 @@ if /usr/bin/expr "$PATH" : '\d*$' >/dev/null; then
   HOST_PORT=$PATH # Allow override using the external-check path option
 elif [ -z "$4" -o "$4" = "0" ]; then
   HOST_PORT=16110 # Default to mainnet
-  case "$HAPROXY_PROXY_NAME" in
-    *test*)
-      HOST_PORT=16210 # Assume testnet for backends with the name test in them
-      ;;
-  esac
+    case "$HAPROXY_PROXY_NAME" in
+      *test*)
+        HOST_PORT=16210 # Assume testnet-10 for backends with the name test in them
+        ;;
+      *tn10*)
+        HOST_PORT=16210 # Assume testnet-10 for backends with the name tn11 in them
+        ;;
+      *tn11*)
+        HOST_PORT=16310 # Assume testnet-11 for backends with the name tn11 in them
+        ;;
+    esac
 fi
 
 ${PWD}/kaspactl -a -s $HOST_IP:$HOST_PORT -t $TIMEOUT_SEC GetInfo 2>/dev/null | /bin/grep -qE '"isSynced": *true'
